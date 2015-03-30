@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Angular dies .. Long live Polymer</title>
+
+    <meta name="description" content="Javascript / AngularJS Training">
+    <meta name="author" content="Tunpixel">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <style>
+      table {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      td {
+        padding: 10px !important;
+      }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+        <section>
+          <h1>Angular</h1>
+          <h2>dies</h2>
+          <h2> .. </h2>
+          <h2>long live</h2>
+          <h1>Polymer</h1>
+          <hr>
+          <h3>TunJS - February 2015</h3>
+          <p>
+            <small>By <a href="http://tunpixel.tn/">Tunpixel</a></small>
+          </p>
+        </section>
+
+        <section>
+          <section>
+            <h2>Program</h2>
+            <hr>
+            <ul>
+              <li>
+                Polymer Intro
+                <ul>
+                  <li>WebComponents</li>
+                  <li>Polymer</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Program</h2>
+            <hr>
+            <ul>
+              <li>
+                AngularJS vs. Polymer
+                <ul>
+                  <li>Template is different</li>
+                  <li>Controller .. no thanks!</li>
+                  <li>Service .. no thanks!</li>
+                  <li>Filter is Filter</li>
+                  <li>Directive vs Custom Element</li>
+                  <li>Routing .. you're on your own!</li>
+                   <li>Application / Module</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>WebComponents</h2>
+            <hr>
+            <blockquote>
+              Standards for the new web.
+            </blockquote>
+            <ul>
+              <li>Custom Elements</li>
+              <li>HTML Imports</li>
+              <li>Shadow DOM</li>
+              <li>Template</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Polymer</h2>
+            <hr>
+            <blockquote>
+              Everything is an element!
+            </blockquote>
+            <ul>
+              <li>a lib, not a framework on top of WebComponents</li>
+              <li>a different syntax to define reusable element .. declarative!</li>
+              <li>a set of ready-to-use elements (<code>core-elements</code> et <code>paper-elements</code>)</li>
+              <li>implements Material design</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>AngularJS Template</h2>
+            <hr>
+            <pre><code class="html" data-trim contenteditable>
+
+<div ng-app="myApp">
+ <div ng-controller="MyController">
+   <input ng-model="inputField">
+   <button ng-click="doSomething()">{{buttonText|uppercase}}</button>
+   <ul ng-if="list.length">
+    <li ng-repeat="item in list">{{item.label}}</li>
+   </ul>
+ </div>
+</div>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Polymer Template</h2>
+            <hr>
+            <pre><code class="html" data-trim contenteditable>
+
+<template is="auto-binding">
+  <input value="{{inputField}}">
+  <button on-click="{{doSomething}}">{{buttonText|uppercase}}</button>
+  <template if="{{list.length}}">
+    <ul>
+     <template repeat="{{item in list}}">
+      <li>{{item.label}}</li>
+     </template>
+    </ul>
+  </template>
+</template>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Template</h2>
+            <hr>
+            <table>
+              <tr>
+                <th></th>
+                <th>AngularJS</th>
+                <th>Polymer</th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>powerful</td>
+                <td>simple</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>reliable</td>
+                <td>not as much</td>
+              </tr><tr>
+                <td></td>
+                <td>mature</td>
+                <td>not yet</td>
+              </tr>
+            </table>
+          </section>
+
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2> AngularJS Controller</h2>
+            <hr>
+            <blockquote>
+              a Controller is a JavaScript constructor function that is used to augment the Angular Scope.
+            </blockquote>
+            <h3>Definition (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+myApp.controller('MyController', function MyController($scope) {
+  $scope.message = 'Hello!';
+});
+
+            </code></pre>
+            <h3>Usage (HTML)</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+<div ng-controller="MyController">
+  {{message}}
+</div>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Polymer</h2>
+            <hr>
+            <blockquote>
+              Nothing!<sup>*</sup>
+            </blockquote>
+            <p>* your own</p>
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h2>AngularJS Service</h2>
+            <hr>
+            <blockquote>
+              Angular services are substitutable objects that are wired together using dependency injection.
+            </blockquote>
+            <blockquote>
+              A service is lazily instantiated singleton.
+            </blockquote>
+            <h3>Definition (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+myApp.factory('myService', function myService(dep1, dep2, ...) {
+  // initialize service
+  return ..; // object or function
+});
+
+            </code></pre>
+            <h3>Usage (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+myApp.factory('myOtherService', function (myOtherService) {
+  // ...
+});
+
+myApp.controller('MyController', function ($scope, $http, myOtherService) {
+  $scope.message = 'Hello!';
+});
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Polymer</h2>
+            <hr>
+            <blockquote>
+              Nothing!
+            </blockquote>
+          </section>
+
+        </section>
+
+        <section>
+          <section>
+            <h2>AngularJS Filter</h2>
+            <hr>
+            <h3>Definition (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+myApp.filter('myFilter', function() {
+  return function( input, arg1, arg2, ...) {
+    // Transformation ...
+    return output;
+  };
+});
+
+            </code></pre>
+            <h3>Usage (HTML)</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+{{ expression | myFilter }}
+{{ expression | myFilter:arg1:arg2:... }}
+
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Polymer Filter</h2>
+            <hr>
+            <h3>Definition (global)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+PolymerExpressions.prototype.myFilter = function( input, arg1, arg2, ...) {
+    // Transformation ...
+    return output;
+  }
+            </code></pre>
+            <h3>Definition (in element)</h3>
+
+
+
+Polymer({
+  // ...
+  myFilter: function( input, arg1, arg2, ...) {
+    // Transformation ...
+    return output;
+  }
+  // ...
+})
+
+            </code></pre>
+            <h3>Usage</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+{{ expression | myFilter }}
+{{ expression | myFilter:arg1:arg2:... }}
+
+            </code></pre>
+          </section>
+
+        </section>
+
+
+        <section>
+          <section>
+            <h2>AngularJS - Directive</h2>
+            <hr>
+            <blockquote>
+              Directives are markers on a DOM element that transforms it or attaches a specified behavior to it.
+            </blockquote>
+
+            <h3>Definition (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+myApp.directive('myDirective', function() {
+  return {
+    restrict: 'E', // restrict to element (E), attribute (A) or class name (C)
+    template: 'Template string with {{markup}} ...',
+    // ...
+  };
+});
+
+            </code></pre>
+            <h3>Usage (HTML)</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+<my-directive att1=val1 ...></my-directive>
+<span my-directive="exp"></span>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Polymer - Custom Element</h2>
+            <hr>
+            <blockquote>
+              Custom element area just HTML elements!
+            </blockquote>
+            <h3>Definition</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+<polymer-element name="profile-card" attributes="profile">
+  <template>
+
+    <style shim-shadowdom>
+      :host { display: block; }
+      .card { padding: 4px; }
+    </style>
+
+    <div class="card">
+      <img src="{{user.picture || profile.picture || '/_/images/logo-md.png'}}">
+      <div>
+        <h3>{{profile.name}}</h3>
+        <template if="{{profile.title}}"> <small>{{profile.title}}</small> </template>
+      </div>
+    </div>
+
+    <script>
+      Polymer({ /* ... */ });
+    </script>
+
+  </template>
+</polymer-element>
+
+            </code></pre>
+            <h3>Usage</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+<profile-card profile="{{user}}"></profile-card>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Directive vs Custom Element</h2>
+            <hr>
+            <table>
+              <tr>
+                <th></th>
+                <th>AngularJS</th>
+                <th>Polymer</th>
+              </tr>
+              <tr>
+                <td>Definition</td>
+                <td>complicated</td>
+                <td>simplified</td>
+              <tr>
+              <tr>
+                <td>Usage</td>
+                <td>flexible</td>
+                <td>favors familiarity</td>
+              </tr>
+              <tr>
+                <td>Maturity</td>
+                <td>mature</td>
+                <td>not yet</td>
+              </tr>
+            </table>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Routing</h2>
+            <hr>
+            <p>Bad news!</p>
+            <blockquote>
+              There is no routing in Polymer.
+            </blockquote>
+          </section>
+
+          <section>
+            <h2>Routing</h2>
+            <hr>
+            <p>Wait! That's not a bad news!</p>
+            <a target="_blank" href="https://erikringsmuth.github.io/app-router/">app-router</a> ...
+            <pre><code class="html" data-trim contenteditable>
+
+<app-router id="router" core-animated-pages transitions="cross-fade-all">
+  <app-route path="/" import="/_/views/main-view.html"></app-route>
+  <app-route path="/profile" import="/_/views/profile-view.html"></app-route>
+  <app-route path="/settings" import="/_/views/settings-view.html"></app-route>
+  <app-route path="/user/:userId" import="/_/views/user-view.html"></app-route>
+  <app-route path="*" redirect="/"></app-route>
+</app-router>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Routing</h2>
+            <hr>
+            <table>
+              <tr>
+                <th></th>
+                <th>AngularJS</th>
+                <th>Polymer</th>
+              </tr>
+              <tr>
+                <td>Routing</td>
+                <td>sucks! <sup>1</sup></td>
+                <td>missing <sup>2</sup></td>
+              </tr>
+            </table>
+            <p>1. ui-router</p>
+            <p>2. not really</section>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Application / Module</h2>
+            <hr>
+            <blockquote>
+              You can think of a module as a <b>container</b> for the different parts of your app – controllers, services, filters, directives, etc.
+            </blockquote>
+            <h3>Definition (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+  var myApp = angular.module('myApp', ['dep1', 'dep2', ...]);
+
+            </code></pre>
+
+            <h3>Retrieval (JS)</h3>
+            <pre><code class="javascript" data-trim contenteditable>
+
+  var myApp = angular.module('myApp');
+
+            </code></pre>
+            <h3>Usage (HTML)</h3>
+            <pre><code class="html" data-trim contenteditable>
+
+<div ng-app="myApp">
+  ...
+</div>
+
+            </code></pre>
+          </section>
+
+          <section>
+            <h1>Element</h1>
+            <hr>
+            <blockquote>
+              DOM is the module system.
+            </blockquote>
+            <ul>
+              <li>A module is an element<sup>*</sup>.</li>
+              <li>A view is an element<sup>*</sup>.</li>
+              <li>An application is an element<sup>*</sup>.</li>
+            </ul>
+            <br>
+            <p>* either Polymer or plain native WebComponent</p>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>References</h2>
+          <ul>
+            <li><a target="_blank" href="http://webcomponents.org/">WebComponents</a></li>
+            <li><a target="_blank" href="https://www.polymer-project.org/">Polymer</a></li>
+            <li><a target="_blank" href="https://www.polymer-project.org/docs/elements/">Polymer Element Collections</a></li>
+            <li><a target="_blank" href="http://customelements.io/">customelements.io</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>THE END</h1>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        slideNumber: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
