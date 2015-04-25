@@ -106,7 +106,7 @@ o2.b = 2;
 // define constructor
 function Meetup(name) {
   // property initialisation
-  this.id = ID.next();
+  this.id = Date.now();
   this.name = name;
 }
 
@@ -126,13 +126,13 @@ Meetup.prototype.is = function (that) {
 };
 
 // define static method
-Meetup.is( /* Meetup */ a, /* Meetup */ b) {
+Meetup.is = function ( /* Meetup */ a, /* Meetup */ b) {
   return a.id === b.id;
 };
 
               </code></pre>
                 </section>
-                 <section>
+                <section>
                     <h2>ES5 "classical" inheritence</h2>
                     <h3><code>TechMeetup</code> class</h3>
                     <pre><code class="javascript" data-trim contenteditable>
@@ -155,9 +155,26 @@ TechMeetup.prototype.toString = function () {
 };
 
 TechMeetup.prototype.go = function () {
-  Meetup.prototype.start.call(this));
+  Meetup.prototype.start.call(this);
   // or simply this.start();
 };
+
+              </code></pre>
+                </section>
+                <section>
+                    <h2>ES5 "classical" inheritence</h2>
+                    <h3>Outcome</h3>
+                    <pre><code class="javascript" data-trim contenteditable>
+
+this.tunjs1 = new Meetup("TunJS");
+
+this.tunjs2 = new TechMeetup("TunJS", "JavaScript");
+
+tunjs1 instanceof Meetup; // ==> true
+tunjs1 instanceof TechMeetup; // ==> false
+
+tunjs2 instanceof TechMeetup; // ==> true
+tunjs2 instanceof Meetup; // ==> true
 
               </code></pre>
                 </section>
@@ -174,7 +191,7 @@ class Meetup {
   // define constructor
   constructor(name) {
     //  initialize properties
-    this.id = ID.next();
+    this.id = Date.now();
     this.name = name;
   }
 
@@ -243,9 +260,13 @@ var Meetup = {
     // create an instance object that prototypes the reference object
     var instance = Object.create(this.prototype);
     // initialize properties
-    instance.id = ID.next();
-    instance.name = name;
+    this.init.call(instance, name);
     return instance;
+  },
+
+  init: function (name) {
+    this.id = Date.now();
+    this.name = name;
   },
 
   prototype: {
@@ -280,14 +301,19 @@ var TechMeetup = {
   // define initialiser 
   create: function (name, technology) {
     // create an instance object that prototypes the reference object
-    var instance = Meetup.create(name);
+    var instance = Object.create(this.prototype);
     // initialize properties
-    instance.technology = technology;
+    this.init.call(instance, name, technology);
     return instance;
   },
 
+  init: function (name, technology) {
+    Meetup.init.call(this, name)
+    this.technology = technology;
+  },
+
   // create a reference object that inherits another reference object's behaviour
-  prototype: Object.create(Meetup.prototype);
+  prototype: Object.create(Meetup.prototype)
 
 };
 
@@ -297,12 +323,37 @@ TechMeetup.prototype.toString = function () {
 };
 
 TechMeetup.prototype.go = function () {
-  Meetup.prototype.start.call(this));
+  Meetup.prototype.start.call(this);
   // or simply this.start();
 };
 
               </code></pre>
                 </section>
+                <section>
+                    <h2>ES5 prototyping</h2>
+                    <h3>Outcome</h3>
+                    <pre><code class="javascript" data-trim contenteditable>
+
+this.tunjs1 = Meetup.create("TunJS");
+
+this.tunjs2 = TechMeetup.create("TunJS", "JavaScript");
+
+              </code></pre>
+                </section>
+            </section>
+            <section>
+                <h2>Refenrences</h2>
+                <ul>
+                    <li>
+                        <a target="_blank" href=""></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href=""></a>
+                    </li>
+                    <li>
+                        <a target="_blank" href=""></a>
+                    </li>
+                </ul>
             </section>
             <section>
                 <h1>THE END</h1>
