@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Introduction to HTTP</title>
+    <meta name="description" content="Javascript / AngularJS Training">
+    <meta name="author" content="Tunpixel">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/simple.css" id="theme">
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    if (window.location.search.match(/print-pdf/gi)) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>Introduction to HTTP</h1>
+                <br>
+                <hr>
+                <h3>TunJS - Mai 2015</h3>
+                <p>
+                    <small>By <a href="http://github.com/naderio">Nader Toukabri</a></small>
+                </p>
+            </section>
+            <section>
+                <section>
+                    <h2>Plan</h2>
+                    <hr>
+                    <ul>
+                        <li>HTTP</li>
+                        <li>REST</li>
+                        <li>CORS</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP</h2>
+                    <blockquote cite="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">
+                        <strong>The Hypertext Transfer Protocol (HTTP)</strong> is an application protocol for distributed, collaborative, hypermedia information systems. HTTP is the foundation of data communication for the World Wide Web.
+                    </blockquote>
+                </section>
+                <section>
+                    <h2>HTTP</h2>
+                    <ul>
+                        <li>an application-level protocol for end-to-end communication</li>
+                        <li>
+                            used for communication between a <strong>client</strong> and a <strong>server</strong>
+                            <ul>
+                                <li>a server could be a client too</li>
+                            </ul>
+                        </li>
+                        <li>a client sends a <strong>request</strong> to server which replies <strong>synchronously</strong> with a <strong>response</strong></li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP Request</h2>
+                    <pre><code data-trim contenteditable>
+
+GET /archive HTTP/1.1
+Host: tunjs.github.io
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2416.0 Safari/537.36
+Referer: http://tunjs.github.io/
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+Cookie: ...
+
+BODY...
+
+                        </code></pre>
+                </section>
+                <section>
+                    <h2>HTTP Request</h2>
+                    <pre><code data-trim contenteditable>
+
+METHOD PATH PROTOCOL_VERSION
+HEADERS
+
+BODY...
+
+                        </code></pre>
+                </section>
+                <section>
+                    <h2>HTTP Response</h2>
+                    <pre><code data-trim contenteditable>
+
+HTTP/1.1 200 OK
+Age: 0
+Cache-Control: max-age=600
+Connection: Keep-Alive
+Content-Encoding: gzip
+Content-Length: 981
+Content-Type: text/html; charset=utf-8
+Date: Fri, 29 May 2015 15:34:58 GMT
+Expires: Fri, 29 May 2015 15:44:58 GMT
+Last-Modified: Sat, 25 Apr 2015 14:06:51 GMT
+Server: GitHub.com
+Vary: Accept-Encoding
+Access-Control-Allow-Origin: *
+X-Cache: MISS
+
+BODY...
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>HTTP Response</h2>
+                    <pre><code data-trim contenteditable>
+
+PROTOCOL_VERSION STATUS_CODE
+HEADERS
+
+BODY...
+
+                        </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP Headers</h2>
+                    <ul>
+                        <li>a list of key-value.</li>
+                        <li>a request/response configuration</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP Methods</h2>
+                    <ul>
+                        <li>HTTP method/verb indicate the nature of desired operation</li>
+                        <li>
+                            <ul>
+                                <li><code>GET</code> used to retrieve information with no side effects (changing data)</li>
+                                <li><code>POST</code> sends data and executues operation which might change data</li>
+                                <li><code>PUT</code></li>
+                                <li><code>PATCH</code></li>
+                                <li><code>DELETE</code></li>
+                                <li><code>OPTIONS</code></li>
+                                <li>...</li>
+                            </ul>
+                        </li>
+                        <li>either safe of unsafe</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP Status Code</h2>
+                    <ul>
+                        <li>a number for which is associated a message, e.g.
+                            <ul>
+                                <li><code>200 Ok</code></li>
+                                <li><code>400 Bad Request</code></li>
+                                <li><code>500 Internal Server Error</code></li>
+                                <li>...</li>
+                            </ul>
+                        </li>
+                        <li>used to codify response state describing a situation regardin client, server or both</li>
+                        <li>falls in one of 5 categories: <strong>informational</strong>, <strong>successful</strong>, <strong>redirection</strong>, <strong>client errors</strong> and <strong>server errors</strong></li>
+                        <li>custom status codes are supported as well</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>HTTP Status Code</h2>
+                    <ul>
+                        <li>Informational (1XX)</li>
+                        <li>Successful (2XX)
+                            <ul>
+                                <li><code>200 OK</code></li>
+                                <li><code>201 Created</code></li>
+                            </ul>
+                        </li>
+                        <li>Redirection (3XX)
+                            <ul>
+                                <li><code>301 Moved Permanently</code></li>
+                                <li><code>302 Found</code></li>
+                                <li><code>304 Not Modified</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>HTTP Status Code</h2>
+                    <ul>
+                        <li>Client Error (4XX)
+                            <ul>
+                                <li><code>400 Bad Request</code></li>
+                                <li><code>401 Unauthorized</code></li>
+                                <li><code>403 Forbidden</code></li>
+                                <li><code>404 Not Found</code></li>
+                                <li>...</li>
+                            </ul>
+                        </li>
+                        <li>Server Error (5XX)
+                            <ul>
+                                <li><code>500 Internal Server Error</code></li>
+                                <li><code>501 Not Implemented</code></li>
+                                <li><code>502 Bad Gateway</code></li>
+                                <li><code>503 Service Unavailable</code></li>
+                                <li><code>504 Gateway Timeout</code></li>
+                                <li>...</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>HTTP</h2>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a target="_blank" href="http://www.httpwatch.com/httpgallery/introduction/">HTTP Introduction</a></li>
+                        <li><a target="_blank" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">Wikipedia Article</a></li>
+                        <li><a target="_blank" href="httphttp://en.wikipedia.org/wiki/List_of_HTTP_status_codes">List of HTTP status codes</a></li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>REST</h2>
+                    <blockquote cite="http://en.wikipedia.org/wiki/Representational_state_transfer">
+                        <strong>Representational State Transfer (REST)</strong> is a software architecture style consisting of guidelines and best practices for creating scalable web services. REST is a coordinated set of constraints applied to the design of components in a distributed hypermedia system that can lead to a more performant and maintainable architecture
+                    </blockquote>
+                </section>
+                <section>
+                    <h2>REST</h2>
+                    <ul>
+                        <li>...</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>REST</h2>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a target="_blank" href="http://en.wikipedia.org/wiki/Representational_state_transfer">Wikipedia Article</a></li>
+                        <li><a target="_blank" href="http://www.restapitutorial.com/">restapitutorial.com</a></li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>CORS</h2>
+                    <img src="img/cors.png">
+                </section>
+                <section>
+                    <h2>CORS</h2>
+                    <blockquote cite="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">
+                        <strong>Cross-origin resource sharing (CORS)</strong> is a mechanism that allows restricted resources (e.g. fonts, JavaScript, etc.) on a web page to be requested from another domain outside the domain from which the resource originated.
+                    </blockquote>
+                </section>
+                <section>
+                    <h2>CORS</h2>
+                    <ul>
+                        <li>Web clients implement a security policy that prevent loading assets from unallowed sources, thus preventing security attacks, most notably XSS.</li>
+                        <li>CORS solves this.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>CORS</h2>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a target="_blank" href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Wikipedia Article</a></li>
+                        <li><a target="_blank" href="http://enable-cors.org/">enable-cors.org</a></li>
+                        <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">MDN</a></li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <h2>Refenrences</h2>
+                <ul>
+                    <li><a target="_blank" href="http://www.httpwatch.com/httpgallery/introduction/">HTTP Introduction</a></li>
+                    <li><a target="_blank" href="http://www.restapitutorial.com/">restapitutorial.com</a></li>
+                    <li><a target="_blank" href="http://enable-cors.org/">enable-cors.org</a></li>
+                    <li><a target="_blank" href="http://http2.github.io/">HTTP/2</a></li>
+                    <li><a target="_blank" href="https://docs.google.com/presentation/d/1l9c9ROjLTD8clOL0yFufAOMbxNC0D-19zCiXMgqtY-M/present?slide=id.p19">HTTP/2 all the things! -- Ilya Grigorik</a></li>
+                </ul>
+            </section>
+            <section>
+                <h1>THE END</h1>
+            </section>
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+    <script>
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        slideNumber: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [{
+            src: 'lib/js/classList.js',
+            condition: function() {
+                return !document.body.classList;
+            }
+        }, {
+            src: 'plugin/markdown/marked.js',
+            condition: function() {
+                return !!document.querySelector('[data-markdown]');
+            }
+        }, {
+            src: 'plugin/markdown/markdown.js',
+            condition: function() {
+                return !!document.querySelector('[data-markdown]');
+            }
+        }, {
+            src: 'plugin/highlight/highlight.js',
+            async: true,
+            callback: function() {
+                hljs.initHighlightingOnLoad();
+            }
+        }, {
+            src: 'plugin/zoom-js/zoom.js',
+            async: true,
+            condition: function() {
+                return !!document.body.classList;
+            }
+        }, {
+            src: 'plugin/notes/notes.js',
+            async: true,
+            condition: function() {
+                return !!document.body.classList;
+            }
+        }]
+    });
+    </script>
+</body>
+
+</html>
